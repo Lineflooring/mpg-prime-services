@@ -7,7 +7,7 @@
   var SB_URL = 'https://pwqrkiskvkjeujidyyem.supabase.co';
   var SB_KEY = 'sb_publishable_NbgUdH8eEFszh08Epi8c0A_l8Ua80ql';
   var WA = '14074434160';
-  var LOCALES = { es: 'es-ES', en: 'en-GB', pt: 'pt-PT' };
+  var LOCALES = { es: 'es-ES', en: 'en-GB', pt: 'pt-BR' };
 
   function lang(){
     try { return sessionStorage.getItem('mps-lang') || 'es'; } catch(e){ return 'es'; }
