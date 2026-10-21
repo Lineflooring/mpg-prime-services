@@ -107,6 +107,11 @@ nav.mainnav a:hover,nav.mainnav a.active{opacity:1;color:var(--gold);}
 .card h3{font-size:21px;}
 .card p{font-size:14.5px;color:var(--cream-dim);flex:1;}
 .card .lnk{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.04em;}
+.card.featured{grid-column:1/-1;flex-direction:row;border-color:var(--gold);}
+.card.featured figure{flex:0 0 46%;height:auto;min-height:280px;}
+.card.featured .pad{justify-content:center;padding:32px;}
+.card.featured h3{font-size:26px;}
+@media (max-width:900px){ .card.featured{flex-direction:column;} .card.featured figure{flex:none;height:210px;min-height:0;} }
 .tagchip{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-dim);border-radius:20px;padding:4px 10px;}
 
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}

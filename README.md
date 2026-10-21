@@ -9,10 +9,13 @@ sello oficial MPG, Fraunces + Montserrat).
 - `index.html` — home: hero, respaldo del grupo (500+ proyectos, 4,8 Google,
   1 año de garantía, desde 2018 — siempre atribuido a la división de
   construcción en **Florida, EE. UU.**), servicios, proceso, galería Florida.
-- `servicios.html` — SPC, laminado, pintura (solo pintar / completa),
-  reforma integral y extras (retirada, nivelación, rodapié). **Sin precios
-  visibles.** Posicionamiento: MPG Prime Services como gestor de proyecto
-  con red de subcontratistas verificada.
+- `servicios.html` — orden de servicios fijado por el dueño (2026-10-21):
+  reforma integral (destacada), cerámica y porcelanato, laminado, SPC,
+  baños, cocinas, pintura (solo pintar / completa) y extras (retirada,
+  nivelación, rodapié). **Sin precios visibles.** Posicionamiento: MPG
+  Prime Services como gestor de proyecto con red de subcontratistas
+  verificada. La misma orden se refleja en las tarjetas de la home, en el
+  pie de todas las páginas y en los chips del paso 1 de `presupuesto.html`.
 - `presupuesto.html` — formulario de solicitud de presupuesto en 6 pasos
   (servicios, dirección, mano de obra/materiales, plazo, datos, visita
   gratuita), modelo del formulario de propuestas de Line Flooring adaptado
