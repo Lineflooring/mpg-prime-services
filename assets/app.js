@@ -71,6 +71,17 @@
     });
     var tg = document.querySelector('.navtoggle'), mn = document.querySelector('.mobilenav');
     if (tg && mn) tg.addEventListener('click', function(){ mn.classList.toggle('open'); });
+    /* Catálogo de obras: filtro por categoría (solo existe en catalogo.html) */
+    var fbar = document.querySelector('.filterbar'), fgrid = document.getElementById('cat-gallery');
+    if (fbar && fgrid) {
+      var fitems = Array.prototype.slice.call(fgrid.querySelectorAll('.gitem'));
+      fbar.addEventListener('click', function(e){
+        var b = e.target.closest('[data-filter]'); if (!b) return;
+        fbar.querySelectorAll('[data-filter]').forEach(function(x){ x.classList.toggle('active', x === b); });
+        var f = b.getAttribute('data-filter');
+        fitems.forEach(function(it){ it.style.display = (f === 'all' || it.getAttribute('data-cat') === f) ? '' : 'none'; });
+      });
+    }
     applyI18n();
   });
 })();

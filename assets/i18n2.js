@@ -276,3 +276,36 @@ pt: {
 }};
 for (var lang in X) { for (var k in X[lang]) { window.I18N[lang][k] = X[lang][k]; } }
 })();
+
+/* MPG Prime Services — i18n parte 3: catálogo de obras */
+(function(){
+var Y = {
+es: {
+  "nav.catalog": "Catálogo",
+  "cat.eyebrow": "Catálogo de obras", "cat.h1": "Obras que <em>ya hemos entregado</em>",
+  "cat.sub": "Una selección de proyectos terminados por la división de construcción de MPG Prime Group en Florida, EE. UU.: baños, cocinas, suelos, cerámica, backsplash y exteriores con el estándar que ahora traemos a España.",
+  "cat.note": "Todas las fotos de esta página son proyectos reales completados en Florida, EE. UU. Ninguna es una obra en España: es el historial que respalda nuestro estándar de ejecución.",
+  "cat.f.all": "Todos", "cat.f.bath": "Baños", "cat.f.kitchen": "Cocinas",
+  "cat.f.floors": "Suelos y escaleras", "cat.f.tile": "Cerámica y porcelanato",
+  "cat.f.backsplash": "Backsplash", "cat.f.panels": "Paneles y exteriores"
+},
+en: {
+  "nav.catalog": "Portfolio",
+  "cat.eyebrow": "Portfolio", "cat.h1": "Work we have <em>already delivered</em>",
+  "cat.sub": "A selection of projects completed by MPG Prime Group's construction division in Florida, USA: bathrooms, kitchens, flooring, ceramic and porcelain tile, backsplashes and outdoor work, delivered to the standard we now bring to Spain.",
+  "cat.note": "Every photo on this page is a real project completed in Florida, USA. None of them is a job in Spain: this is the track record behind our standard of execution.",
+  "cat.f.all": "All", "cat.f.bath": "Bathrooms", "cat.f.kitchen": "Kitchens",
+  "cat.f.floors": "Flooring & stairs", "cat.f.tile": "Ceramic & porcelain tile",
+  "cat.f.backsplash": "Backsplash", "cat.f.panels": "Panels & outdoor"
+},
+pt: {
+  "nav.catalog": "Catálogo",
+  "cat.eyebrow": "Catálogo de obras", "cat.h1": "Obras que <em>já entregamos</em>",
+  "cat.sub": "Uma seleção de projetos concluídos pela divisão de construção da MPG Prime Group na Flórida, EUA: banheiros, cozinhas, pisos, cerâmica e porcelanato, backsplash e áreas externas, com o padrão que agora trazemos para a Espanha.",
+  "cat.note": "Todas as fotos desta página são projetos reais concluídos na Flórida, EUA. Nenhuma é uma obra na Espanha: é o histórico que comprova o nosso padrão de execução.",
+  "cat.f.all": "Todos", "cat.f.bath": "Banheiros", "cat.f.kitchen": "Cozinhas",
+  "cat.f.floors": "Pisos e escadas", "cat.f.tile": "Cerâmica e porcelanato",
+  "cat.f.backsplash": "Backsplash", "cat.f.panels": "Painéis e exteriores"
+}};
+for (var lang in Y) { for (var k in Y[lang]) { window.I18N[lang][k] = Y[lang][k]; } }
+})();
