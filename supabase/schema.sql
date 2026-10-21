@@ -6,6 +6,10 @@
 --   Busca  PON-AQUI-TU-CLAVE  (línea de mpg_panel_config) y sustitúyela por
 --   la clave del panel que te entregó Muse. Es la clave que pedirán el
 --   panel interno (panel.html) y el motor de avisos de vencimiento.
+--   OJO: sustituye SOLO esa línea (el insert de mpg_panel_config). La
+--   función mpg_check_key ya NO compara contra el placeholder (corregido
+--   2026-10-21: al ejecutar vía API con reemplazo global, la comparación
+--   rechazaba la clave verdadera y el panel quedaba bloqueado).
 --
 -- Qué crea:
 --   · Tablas mpg_services_leads / mpg_services_subs / mpg_services_sub_attempts
@@ -122,7 +126,7 @@ create or replace function public.mpg_check_key(p_key text)
 returns boolean
 language sql security definer set search_path = public
 as $$
-  select exists (select 1 from public.mpg_panel_config where k = 'panel_key' and v = p_key and p_key <> '' and p_key <> 'PON-AQUI-TU-CLAVE');
+  select exists (select 1 from public.mpg_panel_config where k = 'panel_key' and v = p_key and p_key <> '');
 $$;
 
 create or replace function public.mpg_panel_leads(p_key text)
