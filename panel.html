@@ -191,7 +191,7 @@
         (st.next ? '<br><span style="color:var(--dim)">Próx.: ' + esc(st.next.toISOString().slice(0,10)) + '</span>' : '') + '</td>' +
         '<td><b>' + esc(r.razon_social || '') + '</b><br><span style="color:var(--dim)">CIF ' + esc(r.cif_nif || '') + ' · REA ' + esc(r.num_rea || '') + '<br>Resp.: ' + esc(r.responsable || '') + '</span></td>' +
         '<td>' + esc(r.email || '') + '<br>' + esc(r.telefono || '') + '</td>' +
-        '<td>' + esc(r.oficios || '') + '</td><td>' + esc(r.zonas || '') + '</td>' +
+        '<td>' + esc(oficiosTxt) + '</td><td>' + esc(r.zonas || '') + '</td>' +
         '<td>' + chips + '<br>' + docsBtns + '</td>';
       var td = document.createElement('td');
       td.innerHTML = r.aprobado ? '<span class="tag apr">APROBADO</span><br>' : '<span class="tag pend">PENDIENTE</span><br>';
