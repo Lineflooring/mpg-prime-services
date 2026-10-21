@@ -107,7 +107,11 @@
       MPS.persistNetlify('contacto', payload),
       MPS.persistSupabase('mpg_services_leads', { tipo: 'contacto', nombre: data.nombre, email: data.email,
         whatsapp: data.telefono || '', ciudad: data.ciudad || '', mensaje: data.mensaje, idioma: MPS.lang() })
-    ]).then(function(){
+    ]).then(function(res){
+      if (!res[1]){
+        err.textContent = MPS.t('contact.err'); err.style.display = 'block';
+        return;
+      }
       document.getElementById('ct-ok').style.display = 'block';
       ev.target.reset();
     });

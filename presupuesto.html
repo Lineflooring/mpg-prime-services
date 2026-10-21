@@ -168,7 +168,12 @@
       MPS.persistSupabase('mpg_services_leads', { tipo: 'presupuesto', nombre: nombre, email: email,
         whatsapp: tel, ciudad: ciudad, servicio: servicios.join(', '),
         mensaje: JSON.stringify(data), idioma: MPS.lang() })
-    ]).then(function(){
+    ]).then(function(res){
+      if (!res[1]){
+        btn.disabled = false; btn.textContent = MPS.t('pr.btn');
+        err.textContent = MPS.t('pr.err'); err.style.display = 'block';
+        return;
+      }
       form.style.display = 'none';
       var okp = document.getElementById('pr-ok'); okp.style.display = 'block';
       okp.scrollIntoView({ behavior: 'smooth' });

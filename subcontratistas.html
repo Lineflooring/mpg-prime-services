@@ -265,15 +265,36 @@ window.I18N.es['sub.zones.ph']='Ej.: Alicante, Elche, Benidorm…'; window.I18N.
     err.style.display = 'none';
     var btn = document.getElementById('sub-btn'); btn.disabled = true; btn.textContent = MPS.t('sub.saving');
     var fd = new FormData(document.getElementById('sub-form'));
-    var meta = { razon_social: fd.get('razon_social'), cif_nif: fd.get('cif_nif'), num_rea: fd.get('num_rea'),
-      responsable: fd.get('responsable'), oficios: trades.concat(otros ? ['Otros: ' + otros] : []), zonas: fd.get('zonas'),
-      email: fd.get('email'), telefono: fd.get('telefono'), estado: 'PENDIENTE', idioma: MPS.lang(),
-      vencimientos: { rea: fd.get('vence_a'), rc: fd.get('vence_b'), ss: fd.get('vence_c'),
-                      hacienda: fd.get('vence_d'), prl: fd.get('vence_e'), alta: fd.get('vence_f') } };
-    Promise.all([
-      MPS.persistNetlifyFiles('subcontratista-registro', fd),
-      MPS.persistSupabase('mpg_services_subs', meta)
-    ]).then(function(){
+    var folder = ('sub-' + String(fd.get('cif_nif') || 'na').replace(/[^A-Za-z0-9]/g, '') + '-' + Date.now()).toLowerCase();
+    var docKeys = { a: 'rea', b: 'rc', c: 'ss', d: 'hacienda', e: 'prl', f: 'alta' };
+    var uploads = ['a','b','c','d','e','f'].map(function(x){
+      var file = document.getElementById('doc-' + x).files[0];
+      return MPS.uploadSubDoc(file, folder).then(function(path){
+        return { key: docKeys[x], path: path, nombre: file ? file.name : '' };
+      });
+    });
+    Promise.all(uploads).then(function(ups){
+      var documentos = {}, uploadsOk = true;
+      ups.forEach(function(u){
+        if (!u.path) uploadsOk = false;
+        else documentos[u.key] = { path: u.path, nombre: u.nombre };
+      });
+      if (!uploadsOk) return false;
+      var meta = { razon_social: fd.get('razon_social'), cif_nif: fd.get('cif_nif'), num_rea: fd.get('num_rea'),
+        responsable: fd.get('responsable'),
+        oficios: trades.concat(otros ? ['Otros: ' + otros] : []).join(', '),
+        zonas: fd.get('zonas'),
+        email: fd.get('email'), telefono: fd.get('telefono'), estado: 'PENDIENTE', idioma: MPS.lang(),
+        vencimientos: { rea: fd.get('vence_a'), rc: fd.get('vence_b'), ss: fd.get('vence_c'),
+                        hacienda: fd.get('vence_d'), prl: fd.get('vence_e'), alta: fd.get('vence_f') },
+        documentos: documentos };
+      return MPS.persistSupabase('mpg_services_subs', meta);
+    }).then(function(saved){
+      if (!saved){
+        btn.disabled = false; btn.textContent = MPS.t('sub.btn');
+        err.textContent = MPS.t('sub.err'); err.style.display = 'block';
+        return;
+      }
       document.getElementById('sub-form').style.display = 'none';
       var okp = document.getElementById('sub-ok'); okp.style.display = 'block';
       okp.scrollIntoView({ behavior: 'smooth' });
