@@ -56,14 +56,29 @@ nav.mainnav a:hover,nav.mainnav a.active{opacity:1;color:var(--gold);}
 .mobilenav a{padding:12px 0;font-size:15px;color:var(--cream);border-top:1px solid var(--line);opacity:.88;}
 .mobilenav a:first-child{border-top:none;}
 @media (max-width:1020px){ nav.mainnav{display:none;} .navtoggle{display:block;} }
-@media (max-width:560px){ .brand-name b{font-size:16px;} .brand img{width:44px;height:44px;} .headbar{padding:10px 16px;} .wrap{padding:0 18px;} }
+/* Header en pantallas estrechas: dos filas limpias, sin solapes ni truncados.
+   Fila 1: sello + wordmark + menú. Fila 2: idiomas + CTA a ancho útil.
+   .headright pasa a display:contents para repartir sus hijos dentro de .headbar. */
+@media (max-width:720px){
+  .headbar{flex-wrap:wrap;row-gap:10px;}
+  .headright{display:contents;}
+  .brand{order:1;}
+  .navtoggle{order:2;margin-left:auto;}
+  .lang-switch{order:3;flex-shrink:0;}
+  .headbar .btn{order:4;flex:1 1 auto;justify-content:center;}
+}
+@media (max-width:560px){ .brand-name b{font-size:16px;} .brand img{width:44px;height:44px;} .brand{gap:10px;} .brand-name span{font-size:9.5px;letter-spacing:.06em;} .headbar{padding:10px 16px;} .headbar .btn{padding:10px 14px;font-size:13px;} .wrap{padding:0 18px;} }
+/* Anclas: margen superior para que el header fijo no tape los títulos */
+[id]{scroll-margin-top:92px;}
+@media (max-width:720px){ [id]{scroll-margin-top:140px;} }
 
 /* ---------- hero / secciones ---------- */
 .hero{position:relative;padding:96px 0 84px;overflow:hidden;}
 .hero::before{content:"";position:absolute;inset:0;background:var(--hero-img,none) center/cover no-repeat;opacity:.34;}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,13,18,.55),rgba(10,13,18,.92) 78%);}
 .hero .wrap{position:relative;z-index:2;}
-.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+@media (max-width:560px){ .eyebrow{font-size:11px;letter-spacing:.07em;} .eyebrow::before{width:24px;} }
 .eyebrow::before{content:"";width:34px;height:1px;background:var(--gold);}
 .hero h1{font-size:clamp(34px,5.4vw,58px);line-height:1.05;max-width:820px;margin-bottom:18px;}
 .hero-sub{max-width:600px;font-size:16.5px;color:var(--cream-dim);margin-bottom:30px;}
