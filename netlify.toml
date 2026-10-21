@@ -1,0 +1,11 @@
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Los dominios propios (mpgprimeservices.es / .com) se conectan en la fase
+# siguiente, tras la aprobación del diseño por el propietario.
