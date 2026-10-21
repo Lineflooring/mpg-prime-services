@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel interno · MPG Prime Services</title>
+<link rel="icon" type="image/png" href="assets/img/seal.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#0A0D12; --panel:#12161D; --line:#262C36; --gold:#C4A35A; --cream:#F7F4EF; --dim:#A9B0BC; --ok:#3FB27F; --warn:#E0A93E; --bad:#E05252; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--cream); font-family:'Montserrat',sans-serif; font-size:14px; }
+  .wrap{ max-width:1240px; margin:0 auto; padding:22px 18px 60px; }
+  header.top{ display:flex; align-items:center; gap:14px; padding:16px 0 8px; flex-wrap:wrap; }
+  header.top img{ width:44px; height:44px; border-radius:50%; }
+  header.top h1{ font-size:19px; letter-spacing:.04em; }
+  header.top h1 i{ color:var(--gold); font-style:normal; }
+  header.top .sub{ color:var(--dim); font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
+  .spacer{ flex:1; }
+  button,.btn{ background:var(--gold); color:#14100A; border:0; border-radius:8px; padding:9px 16px; font-weight:700; font-family:inherit; cursor:pointer; font-size:13px; }
+  button.ghost{ background:transparent; color:var(--cream); border:1px solid var(--line); }
+  button.small{ padding:5px 10px; font-size:12px; border-radius:6px; }
+  #gate{ max-width:420px; margin:10vh auto; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:28px; }
+  #gate h2{ font-size:18px; margin-bottom:6px; }
+  #gate p{ color:var(--dim); font-size:13px; margin-bottom:16px; }
+  #gate input{ width:100%; padding:11px 12px; border-radius:8px; border:1px solid var(--line); background:#0D1015; color:var(--cream); font-family:inherit; margin-bottom:12px; }
+  .err{ color:var(--bad); font-size:13px; min-height:18px; margin-bottom:8px; }
+  h2.sec{ font-size:16px; margin:34px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.sec .count{ color:var(--gold); font-size:13px; }
+  p.note{ color:var(--dim); font-size:12.5px; margin-bottom:10px; }
+  .tablewrap{ overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--panel); }
+  table{ border-collapse:collapse; width:100%; min-width:860px; }
+  th,td{ padding:9px 11px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; font-size:13px; }
+  th{ color:var(--dim); font-size:11px; letter-spacing:.1em; text-transform:uppercase; background:#0D1015; }
+  tr:last-child td{ border-bottom:0; }
+  .dot{ display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:6px; vertical-align:-1px; }
+  .dot.verde{ background:var(--ok); } .dot.ambar{ background:var(--warn); } .dot.rojo{ background:var(--bad); }
+  .chip{ display:inline-block; border:1px solid var(--line); border-radius:20px; padding:2px 9px; font-size:11.5px; margin:0 4px 4px 0; color:var(--dim); }
+  .chip.ok{ color:var(--ok); border-color:var(--ok); } .chip.warn{ color:var(--warn); border-color:var(--warn); } .chip.bad{ color:var(--bad); border-color:var(--bad); }
+  .tag{ font-weight:700; font-size:11px; letter-spacing:.08em; }
+  .tag.pend{ color:var(--warn); } .tag.apr{ color:var(--ok); }
+  select.estado{ background:#0D1015; color:var(--cream); border:1px solid var(--line); border-radius:6px; padding:4px 6px; font-family:inherit; font-size:12.5px; }
+  a{ color:var(--gold); }
+  .empty{ padding:22px; color:var(--dim); text-align:center; }
+  .docbtn{ margin:0 4px 4px 0; }
+  #loading{ color:var(--dim); padding:30px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <img src="assets/img/seal.png" alt="MPG">
+    <div>
+      <h1>MPG PRIME <i>SERVICES</i></h1>
+      <div class="sub">Panel interno · Leads y subcontratistas</div>
+    </div>
+    <div class="spacer"></div>
+    <button class="ghost" id="btn-refresh" style="display:none">Actualizar</button>
+    <button class="ghost" id="btn-logout" style="display:none">Salir</button>
+  </header>
+
+  <div id="gate">
+    <h2>Acceso al panel</h2>
+    <p>Introduce la clave de acceso del panel (la misma definida en el schema de Supabase).</p>
+    <div class="err" id="gate-err"></div>
+    <form id="gate-form">
+      <input type="password" id="gate-key" placeholder="Clave de acceso" autocomplete="current-password">
+      <button type="submit" style="width:100%">Entrar</button>
+    </form>
+  </div>
+
+  <div id="app" style="display:none">
+    <div id="loading">Cargando datos…</div>
+
+    <h2 class="sec">Leads <span class="count" id="leads-count"></span></h2>
+    <p class="note">Presupuestos, contacto e inversores recibidos desde el sitio.</p>
+    <div class="tablewrap"><table id="leads-table">
+      <thead><tr><th>Fecha</th><th>Tipo</th><th>Nombre</th><th>Contacto</th><th>Ciudad</th><th>Servicio</th><th>m²</th><th>Total est.</th><th>Estado</th></tr></thead>
+      <tbody></tbody>
+    </table><div class="empty" id="leads-empty" style="display:none">Sin leads todavía.</div></div>
+
+    <h2 class="sec">Subcontratistas <span class="count" id="subs-count"></span></h2>
+    <p class="note">Semáforo: 🔴 documento vencido o en falta · 🟡 vence en ≤30 días o revisión pendiente · 🟢 todo vigente y aprobado. Solo verde + aprobado puede recibir trabajo.</p>
+    <div class="tablewrap"><table id="subs-table">
+      <thead><tr><th>Semáforo</th><th>Empresa</th><th>Contacto</th><th>Oficios</th><th>Zonas</th><th>Documentos (vencimiento)</th><th>Revisión</th></tr></thead>
+      <tbody></tbody>
+    </table><div class="empty" id="subs-empty" style="display:none">Sin registros todavía.</div></div>
+
+    <h2 class="sec">Intentos bloqueados en el Paso 0 <span class="count" id="att-count"></span></h2>
+    <p class="note">Empresas filtradas por no cumplir un requisito mínimo.</p>
+    <div class="tablewrap"><table id="att-table">
+      <thead><tr><th>Fecha</th><th>Empresa</th><th>Email</th><th>Requisitos no cumplidos</th></tr></thead>
+      <tbody></tbody>
+    </table><div class="empty" id="att-empty" style="display:none">Sin intentos bloqueados.</div></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var SB_URL = 'https://pwqrkiskvkjeujidyyem.supabase.co';
+  var SB_KEY = 'sb_publishable_NbgUdH8eEFszh08Epi8c0A_l8Ua80ql';
+  var STORE = 'mps-panel-key';
+  var panelKey = '';
+  var DOCS = [ ['rea','REA'], ['rc','Resp. Civil'], ['ss','Seg. Social'], ['hacienda','Hacienda'], ['prl','PRL'], ['alta','Alta empresa'] ];
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function fdate(iso){ if(!iso) return ''; var d = new Date(iso); return d.toLocaleDateString('es-ES') + ' ' + d.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'}); }
+  function rpc(fn, args){
+    var body = Object.assign({ p_key: panelKey }, args || {});
+    return fetch(SB_URL + '/rest/v1/rpc/' + fn, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
+      body: JSON.stringify(body)
+    }).then(function(r){ if (!r.ok) throw new Error('rpc ' + fn + ' ' + r.status); return r.json(); });
+  }
+
+  function docStatus(sub){
+    var v = sub.vencimientos || {}, docs = sub.documentos || {};
+    var today = new Date(); today.setHours(0,0,0,0);
+    var per = [], worst = 0, nextV = null; // 0 verde, 1 ámbar, 2 rojo
+    DOCS.forEach(function(d){
+      var key = d[0], label = d[1], fecha = v[key], path = docs[key] && docs[key].path;
+      if (!fecha || !path){ per.push({ label: label, fecha: fecha || '', cls: 'bad', txt: 'en falta' }); worst = 2; return; }
+      var f = new Date(fecha + 'T00:00:00');
+      var days = Math.round((f - today) / 86400000);
+      if (!nextV || f < nextV) nextV = f;
+      if (days < 0){ per.push({ label: label, fecha: fecha, cls: 'bad', txt: 'vencido hace ' + (-days) + 'd' }); worst = 2; }
+      else if (days <= 30){ per.push({ label: label, fecha: fecha, cls: 'warn', txt: days + 'd' }); if (worst < 1) worst = 1; }
+      else per.push({ label: label, fecha: fecha, cls: 'ok', txt: days + 'd' });
+    });
+    if (!sub.aprobado && worst < 1) worst = 1;
+    return { per: per, level: ['verde','ambar','rojo'][worst], next: nextV };
+  }
+
+  function downloadDoc(path, nombre){
+    fetch(SB_URL + '/storage/v1/object/sub-docs/' + path, {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'x-panel-key': panelKey }
+    }).then(function(r){ if (!r.ok) throw new Error('storage ' + r.status); return r.blob(); })
+      .then(function(b){
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(b);
+        a.download = nombre || path.split('/').pop();
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+      })
+      .catch(function(e){ alert('No se pudo descargar el documento (' + e.message + ').'); });
+  }
+
+  function renderLeads(rows){
+    var tb = document.querySelector('#leads-table tbody'); tb.innerHTML = '';
+    document.getElementById('leads-count').textContent = rows.length ? '(' + rows.length + ')' : '';
+    document.getElementById('leads-empty').style.display = rows.length ? 'none' : 'block';
+    var estados = ['nuevo','contactado','presupuesto','ganado','perdido'];
+    rows.forEach(function(r){
+      var tr = document.createElement('tr');
+      var contacto = [r.email, r.whatsapp].filter(Boolean).map(esc).join('<br>');
+      tr.innerHTML = '<td>' + esc(fdate(r.created_at)) + '</td><td>' + esc(r.tipo || '') + '</td><td><b>' +
+        esc(r.nombre || r.empresa || '') + '</b>' + (r.mensaje ? '<br><span style="color:var(--dim)">' + esc(String(r.mensaje).slice(0,140)) + '</span>' : '') +
+        '</td><td>' + contacto + '</td><td>' + esc(r.ciudad || '') + '</td><td>' + esc(r.servicio || '') + '</td><td>' +
+        esc(r.m2 || '') + '</td><td>' + (r.total_estimado ? esc(r.total_estimado) + ' €' : '') + '</td>';
+      var td = document.createElement('td');
+      var sel = document.createElement('select'); sel.className = 'estado';
+      estados.forEach(function(e){ var o = document.createElement('option'); o.value = e; o.textContent = e; if (r.estado === e) o.selected = true; sel.appendChild(o); });
+      sel.addEventListener('change', function(){ rpc('mpg_panel_set_lead_estado', { p_id: r.id, p_estado: sel.value }).catch(function(){ alert('No se pudo guardar el estado.'); }); });
+      td.appendChild(sel); tr.appendChild(td);
+      tb.appendChild(tr);
+    });
+  }
+
+  function renderSubs(rows){
+    var tb = document.querySelector('#subs-table tbody'); tb.innerHTML = '';
+    document.getElementById('subs-count').textContent = rows.length ? '(' + rows.length + ')' : '';
+    document.getElementById('subs-empty').style.display = rows.length ? 'none' : 'block';
+    rows.forEach(function(r){
+      var st = docStatus(r);
+      var tr = document.createElement('tr');
+      var chips = st.per.map(function(p){ return '<span class="chip ' + p.cls + '">' + esc(p.label) + ': ' + esc(p.fecha || '—') + ' (' + esc(p.txt) + ')</span>'; }).join('');
+      var docsBtns = DOCS.map(function(d){
+        var doc = (r.documentos || {})[d[0]];
+        if (!doc || !doc.path) return '';
+        return '<button class="small ghost docbtn" data-path="' + esc(doc.path) + '" data-nombre="' + esc(doc.nombre || '') + '">⬇ ' + esc(d[1]) + '</button>';
+      }).join('');
+      tr.innerHTML = '<td><span class="dot ' + st.level + '"></span><b>' + esc(st.level.toUpperCase()) + '</b>' +
+        (st.next ? '<br><span style="color:var(--dim)">Próx.: ' + esc(st.next.toISOString().slice(0,10)) + '</span>' : '') + '</td>' +
+        '<td><b>' + esc(r.razon_social || '') + '</b><br><span style="color:var(--dim)">CIF ' + esc(r.cif_nif || '') + ' · REA ' + esc(r.num_rea || '') + '<br>Resp.: ' + esc(r.responsable || '') + '</span></td>' +
+        '<td>' + esc(r.email || '') + '<br>' + esc(r.telefono || '') + '</td>' +
+        '<td>' + esc(r.oficios || '') + '</td><td>' + esc(r.zonas || '') + '</td>' +
+        '<td>' + chips + '<br>' + docsBtns + '</td>';
+      var td = document.createElement('td');
+      td.innerHTML = r.aprobado ? '<span class="tag apr">APROBADO</span><br>' : '<span class="tag pend">PENDIENTE</span><br>';
+      var btn = document.createElement('button');
+      btn.className = 'small'; btn.textContent = r.aprobado ? 'Volver a pendiente' : 'Aprobar';
+      btn.addEventListener('click', function(){
+        rpc('mpg_panel_set_aprobado', { p_id: r.id, p_val: !r.aprobado }).then(load).catch(function(){ alert('No se pudo guardar.'); });
+      });
+      td.appendChild(btn); tr.appendChild(td);
+      tb.appendChild(tr);
+    });
+    tb.querySelectorAll('.docbtn').forEach(function(b){
+      b.addEventListener('click', function(){ downloadDoc(b.dataset.path, b.dataset.nombre); });
+    });
+  }
+
+  function renderAttempts(rows){
+    var tb = document.querySelector('#att-table tbody'); tb.innerHTML = '';
+    document.getElementById('att-count').textContent = rows.length ? '(' + rows.length + ')' : '';
+    document.getElementById('att-empty').style.display = rows.length ? 'none' : 'block';
+    rows.forEach(function(r){
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + esc(fdate(r.created_at)) + '</td><td>' + esc(r.empresa || '') + '</td><td>' + esc(r.email || '') + '</td><td>' + esc(r.preguntas_fallidas || '') + '</td>';
+      tb.appendChild(tr);
+    });
+  }
+
+  function load(){
+    document.getElementById('loading').style.display = 'block';
+    return Promise.all([ rpc('mpg_panel_leads'), rpc('mpg_panel_subs'), rpc('mpg_panel_attempts') ])
+      .then(function(res){
+        document.getElementById('loading').style.display = 'none';
+        renderLeads(res[0]); renderSubs(res[1]); renderAttempts(res[2]);
+      });
+  }
+
+  function enter(key){
+    panelKey = key;
+    load().then(function(){
+      try { localStorage.setItem(STORE, key); } catch(e){}
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('btn-refresh').style.display = 'inline-block';
+      document.getElementById('btn-logout').style.display = 'inline-block';
+    }).catch(function(){
+      document.getElementById('gate-err').textContent = 'Clave no válida o backend aún no activado (¿ya ejecutaste el schema en Supabase?).';
+      try { localStorage.removeItem(STORE); } catch(e){}
+    });
+  }
+
+  document.getElementById('gate-form').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    document.getElementById('gate-err').textContent = '';
+    enter(document.getElementById('gate-key').value.trim());
+  });
+  document.getElementById('btn-refresh').addEventListener('click', function(){ load().catch(function(){ alert('Error al actualizar.'); }); });
+  document.getElementById('btn-logout').addEventListener('click', function(){
+    try { localStorage.removeItem(STORE); } catch(e){}
+    location.reload();
+  });
+
+  var stored = '';
+  try { stored = localStorage.getItem(STORE) || ''; } catch(e){}
+  if (stored) enter(stored);
+})();
+</script>
+</body>
+</html>
