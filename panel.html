@@ -182,6 +182,11 @@
         if (!doc || !doc.path) return '';
         return '<button class="small ghost docbtn" data-path="' + esc(doc.path) + '" data-nombre="' + esc(doc.nombre || '') + '">⬇ ' + esc(d[1]) + '</button>';
       }).join('');
+      var oficiosTxt = r.oficios || '';
+      if (typeof oficiosTxt === 'string' && oficiosTxt.charAt(0) === '[') {
+        try { oficiosTxt = JSON.parse(oficiosTxt).join(', '); } catch(e){}
+      }
+      if (Array.isArray(oficiosTxt)) oficiosTxt = oficiosTxt.join(', ');
       tr.innerHTML = '<td><span class="dot ' + st.level + '"></span><b>' + esc(st.level.toUpperCase()) + '</b>' +
         (st.next ? '<br><span style="color:var(--dim)">Próx.: ' + esc(st.next.toISOString().slice(0,10)) + '</span>' : '') + '</td>' +
         '<td><b>' + esc(r.razon_social || '') + '</b><br><span style="color:var(--dim)">CIF ' + esc(r.cif_nif || '') + ' · REA ' + esc(r.num_rea || '') + '<br>Resp.: ' + esc(r.responsable || '') + '</span></td>' +

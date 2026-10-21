@@ -9,22 +9,26 @@ sello oficial MPG, Fraunces + Montserrat).
 - `index.html` — home: hero, respaldo del grupo (500+ proyectos, 4,8 Google,
   1 año de garantía, desde 2018 — siempre atribuido a la división de
   construcción en **Florida, EE. UU.**), servicios, proceso, galería Florida.
-- `servicios.html` — SPC, laminado, pintura (solo pintar / completa) y extras
-  (retirada, nivelación, rodapié). **Sin precios visibles.**
-- `calculadora.html` — calculadora en € con la columna P2 interna
-  (SPC 15,3 · laminado 12,6 · pintura 8,6 · pintura completa 18,8 €/m² ·
-  rodapié 5,1 €/ml · retirada 7,0 · nivelación 10,3 €/m²). El total solo se
-  revela tras nombre + WhatsApp + email (lead-gate).
-- `subcontratistas.html` — Paso 0 (filtro Sí/No eliminatorio: RC, empresa
-  activa, REA, PRL, SS/Hacienda; un "No" bloquea y el intento se registra) +
-  registro completo con 6 documentos, cada uno con fecha de vencimiento
-  obligatoria. Estado inicial: **PENDIENTE**.
+- `servicios.html` — SPC, laminado, pintura (solo pintar / completa),
+  reforma integral y extras (retirada, nivelación, rodapié). **Sin precios
+  visibles.** Posicionamiento: MPG Prime Services como gestor de proyecto
+  con red de subcontratistas verificada.
+- `presupuesto.html` — formulario de solicitud de presupuesto en 6 pasos
+  (servicios, dirección, mano de obra/materiales, plazo, datos, visita
+  gratuita), modelo del formulario de propuestas de Line Flooring adaptado
+  a España. Sin calculadora ni totales instantáneos.
+- `subcontratistas.html` — bloque introductorio de selección (red limitada
+  por zona, lista de 16 oficios) + Paso 0 (filtro Sí/No eliminatorio: RC,
+  empresa activa, REA, PRL, SS/Hacienda; un "No" bloquea y el intento se
+  registra) + registro completo con oficios en selección múltiple y 6
+  documentos, cada uno con fecha de vencimiento obligatoria. Estado
+  inicial: **PENDIENTE**.
 - `inversores.html` — propuesta B2B + formulario propio.
 - `contacto.html` — WhatsApp +1 (407) 443-4160, info@mpgprimeservices.es, formulario.
 
 ## Cómo se capturan los datos
 **Destino principal: Netlify Forms** (panel de Netlify → Forms):
-- `calculadora-lead` · `contacto` · `inversor`
+- `presupuesto` · `contacto` · `inversor`
 - `subcontratista-registro` (con los 6 archivos adjuntos)
 - `subcontratista-bloqueado` (intentos filtrados en el Paso 0)
 

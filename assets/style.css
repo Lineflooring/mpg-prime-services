@@ -163,16 +163,6 @@ nav.mainnav a:hover,nav.mainnav a.active{opacity:1;color:var(--gold);}
 @media (max-width:760px){ .docrow{grid-template-columns:1fr;} }
 .docrow .dt{font-size:13.5px;font-weight:600;}
 .docrow .dt small{display:block;font-weight:400;color:var(--cream-dim);font-size:11.5px;margin-top:3px;}
-.locked{filter:blur(7px);user-select:none;pointer-events:none;}
-.resultbox{border:1px solid var(--gold-dim);background:rgba(196,163,90,.06);border-radius:14px;padding:26px;margin-top:22px;}
-.resultbox .total{font-family:'Fraunces',serif;font-size:44px;color:var(--gold);line-height:1;}
-.resultbox table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
-.resultbox td{padding:8px 0;border-bottom:1px solid var(--line);color:var(--cream-dim);}
-.resultbox td:last-child{text-align:right;color:var(--cream);font-weight:600;white-space:nowrap;}
-.clause{font-size:12.5px;color:var(--cream-dim);line-height:1.6;}
-.progressline{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
-.progressline span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;padding:6px 12px;border:1px solid var(--line);border-radius:20px;color:var(--cream-dim);text-transform:uppercase;}
-.progressline span.on{border-color:var(--gold);color:var(--gold);}
 
 /* ---------- footer ---------- */
 footer{background:#07090D;border-top:1px solid var(--line);padding:56px 0 30px;}
@@ -188,3 +178,20 @@ footer p{font-size:13.5px;color:var(--cream-dim);}
 .fbottom{border-top:1px solid var(--line);margin-top:42px;padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:rgba(247,244,239,.45);}
 .wa-float{position:fixed;right:20px;bottom:20px;z-index:70;width:56px;height:56px;border-radius:50%;background:#1FA855;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.45);}
 .wa-float svg{width:30px;height:30px;fill:#fff;}
+
+/* ---------- solicitud de presupuesto / chips ---------- */
+.truststrip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+.truststrip span{border:1px solid var(--gold-dim);color:var(--gold);border-radius:20px;padding:7px 14px;font-size:12.5px;font-weight:600;}
+.stepblock{margin-bottom:28px;}
+.stepblock h3{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px;}
+.stepblock .stepnote{font-size:12.5px;color:var(--cream-dim);margin-bottom:12px;}
+.chipgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media (max-width:700px){ .chipgrid{grid-template-columns:1fr;} }
+.chip{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:var(--bg);cursor:pointer;font-size:13.5px;color:var(--cream-dim);}
+.chip input{accent-color:var(--gold);width:17px;height:17px;flex-shrink:0;}
+.chip:has(input:checked){border-color:var(--gold);color:var(--cream);}
+.optcard{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:11px;padding:14px;background:var(--bg);cursor:pointer;font-size:14.5px;font-weight:600;color:var(--cream-dim);}
+.optcard input{accent-color:var(--gold);width:17px;height:17px;flex-shrink:0;}
+.optcard:has(input:checked){border-color:var(--gold);color:var(--cream);}
+.trades{display:flex;flex-wrap:wrap;gap:8px;}
+.trades span{border:1px solid var(--line);background:var(--bg);border-radius:20px;padding:7px 13px;font-size:13px;color:var(--cream-dim);}

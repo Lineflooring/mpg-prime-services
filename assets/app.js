@@ -1,13 +1,13 @@
 /* MPG Prime Services — motor del sitio: i18n + persistencia
-   Persistencia de leads/registros:
-   1) Netlify Forms (AJAX) — destino principal, visible en el panel de Netlify.
-   2) Supabase (proyecto del grupo) — intento en paralelo; activo cuando se creen
-      las tablas con supabase/schema.sql. Si la tabla no existe, falla en silencio. */
+   Persistencia de leads/registros: SOLO Supabase (proyecto del grupo),
+   fuente única de verdad. El sitio vive en GitHub Pages: Netlify Forms
+   no existe ahí, así que las funciones persistNetlify* quedan como
+   no-ops retirados (devuelven false sin red) para no romper llamadas
+   antiguas. Las tablas y el bucket se crean con supabase/schema.sql. */
 (function(){
   var SB_URL = 'https://pwqrkiskvkjeujidyyem.supabase.co';
   var SB_KEY = 'sb_publishable_NbgUdH8eEFszh08Epi8c0A_l8Ua80ql';
   var WA = '14074434160';
-  var LOCALES = { es: 'es-ES', en: 'en-GB', pt: 'pt-BR' };
 
   function lang(){
     try { return sessionStorage.getItem('mps-lang') || 'es'; } catch(e){ return 'es'; }
@@ -37,21 +37,9 @@
     applyI18n();
   }
 
-  function persistNetlify(formName, data){
-    var body = new URLSearchParams();
-    body.append('form-name', formName);
-    Object.keys(data || {}).forEach(function(k){
-      var v = data[k];
-      body.append(k, v === undefined || v === null ? '' : (typeof v === 'object' ? JSON.stringify(v) : String(v)));
-    });
-    return fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() })
-      .then(function(r){ return r.ok; }).catch(function(){ return false; });
-  }
-  function persistNetlifyFiles(formName, formData){
-    formData.append('form-name', formName);
-    return fetch('/', { method: 'POST', body: formData })
-      .then(function(r){ return r.ok; }).catch(function(){ return false; });
-  }
+  /* RETIRADO: Netlify Forms no existe en GitHub Pages. No-op sin red. */
+  function persistNetlify(formName, data){ return Promise.resolve(false); }
+  function persistNetlifyFiles(formName, formData){ return Promise.resolve(false); }
   function persistSupabase(table, row){
     return fetch(SB_URL + '/rest/v1/' + table, {
       method: 'POST',
@@ -59,14 +47,22 @@
       body: JSON.stringify(row)
     }).then(function(r){ return r.ok; }).catch(function(){ return false; });
   }
-  function fmtEUR(n){
-    return new Intl.NumberFormat(LOCALES[lang()] || 'es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+  /* Sube un documento de subcontratista al bucket PRIVADO sub-docs.
+     Devuelve la ruta dentro del bucket (o null si falla). */
+  function uploadSubDoc(file, folder){
+    if (!file) return Promise.resolve(null);
+    var safe = (file.name || 'doc').replace(/[^A-Za-z0-9._-]/g, '_');
+    var path = folder + '/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '-' + safe;
+    return fetch(SB_URL + '/storage/v1/object/sub-docs/' + path, {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': file.type || 'application/octet-stream', 'x-upsert': 'false' },
+      body: file
+    }).then(function(r){ return r.ok ? path : null; }).catch(function(){ return null; });
   }
-
   window.MPS = {
     t: t, lang: lang, setLang: setLang, applyI18n: applyI18n,
     persistNetlify: persistNetlify, persistNetlifyFiles: persistNetlifyFiles,
-    persistSupabase: persistSupabase, fmtEUR: fmtEUR, WA: WA
+    persistSupabase: persistSupabase, uploadSubDoc: uploadSubDoc, WA: WA
   };
 
   document.addEventListener('DOMContentLoaded', function(){
