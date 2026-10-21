@@ -27,22 +27,41 @@ sello oficial MPG, Fraunces + Montserrat).
 - `contacto.html` — WhatsApp +1 (407) 443-4160, info@mpgprimeservices.es, formulario.
 
 ## Cómo se capturan los datos
-**Destino principal: Netlify Forms** (panel de Netlify → Forms):
-- `presupuesto` · `contacto` · `inversor`
-- `subcontratista-registro` (con los 6 archivos adjuntos)
-- `subcontratista-bloqueado` (intentos filtrados en el Paso 0)
+**Fuente única de verdad: Supabase** (proyecto del grupo `pwqrkiskvkjeujidyyem`).
+El sitio vive en GitHub Pages: **Netlify Forms no existe ahí** (las antiguas
+llamadas quedaron como no-ops retirados en `assets/app.js`).
 
-**En paralelo (best effort): Supabase**, proyecto del grupo
-(`pwqrkiskvkjeujidyyem`), tablas `mpg_services_leads`, `mpg_services_subs`,
-`mpg_services_sub_attempts`. Para activarlo: ejecutar `supabase/schema.sql`
-en el SQL Editor del proyecto. Sin las tablas, los inserts fallan en silencio
-y Netlify Forms sigue siendo la fuente de verdad.
+- Formularios → tabla `mpg_services_leads` (tipos: presupuesto, contacto,
+  inversor). El formulario solo muestra confirmación si el insert se guardó;
+  si falla, muestra error (nada de éxitos falsos).
+- Registro de subcontratista → tabla `mpg_services_subs` + los 6 documentos
+  subidos al **bucket privado `sub-docs`** (rutas y vencimientos en la fila).
+- Intentos bloqueados en el Paso 0 → `mpg_services_sub_attempts`.
 
-## Fase siguiente (no incluida en esta entrega)
-1. Conectar dominios propios mpgprimeservices.es (principal) y .com.
-2. Panel interno de subcontratistas con semáforos (verde/ámbar/rojo) estilo
-   Tabla de Schedule, sobre las tablas Supabase.
-3. Emails automáticos de vencimiento (30/15/7 días, día del vencimiento,
-   documentos faltantes) desde info@mpgprimeservices.es (SPF/DKIM).
-4. Bucket privado de Supabase Storage para los documentos de los subs.
-5. Páginas por ciudad (Alicante, Valencia, Málaga, Madrid) y ciudad+servicio.
+**Activación (único paso pendiente):** ejecutar `supabase/schema.sql` en el
+SQL Editor de Supabase, sustituyendo antes `PON-AQUI-TU-CLAVE` por la clave
+del panel. Crea tablas, bucket, RLS (anon solo inserta) y las funciones RPC
+del panel. Hasta ejecutarlo, los formularios muestran error al enviar.
+
+## Panel interno
+`panel.html` (no enlazado desde el sitio, `noindex`): clave de acceso en
+localStorage, patrón de la Tabela de Schedule (RPC con `p_key`). Lista leads
+con estado editable, subcontratistas con **semáforo calculado** desde los 6
+vencimientos (🔴 vencido/en falta · 🟡 ≤30 días o pendiente de revisión ·
+🟢 vigente y aprobado), botón de aprobación y descarga de documentos con la
+cabecera `x-panel-key`.
+
+## Motor de vencimientos
+Script diario fuera del repo: `~/workspace/spain/mpg-services-tools/`
+(`expiry_check.py` + cron diario 08:09 Europe/Madrid). Nace en **modo
+report** (sin emails) hasta que exista la casilla info@mpgprimeservices.es;
+el informe diario queda en `reports/`. Interruptor de envío en su `.env`.
+
+## Pendiente
+1. Ejecutar el schema en Supabase (paso del propietario, ver arriba).
+2. Casilla info@mpgprimeservices.es (clic de contraseña en GoDaddy) → tras
+   eso, SPF/DKIM y activar `MPG_MAIL_MODE=send` en el motor.
+3. Dominio propio: CNAME `mpgprimeservices.es` + DNS en GoDaddy (A de Pages
+   en el apex + CNAME www → lineflooring.github.io, sin tocar el TXT _dmarc).
+   Hacerlo junto: el CNAME sin DNS dejaría el sitio inaccesible.
+4. Páginas por ciudad (Alicante, Valencia, Málaga, Madrid) y ciudad+servicio.
