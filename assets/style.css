@@ -158,6 +158,11 @@ nav.mainnav a:hover,nav.mainnav a.active{opacity:1;color:var(--gold);}
 .ctaband .inner{display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;}
 .ctaband h2{font-size:clamp(24px,3.4vw,34px);max-width:560px;}
 .ctaband p{color:var(--cream-dim);margin-top:8px;max-width:520px;font-size:15px;}
+.collab-band{background:linear-gradient(120deg,rgba(196,163,90,.17),rgba(196,163,90,.05) 55%,rgba(196,163,90,.11));border-top:1px solid rgba(196,163,90,.5);border-bottom:1px solid rgba(196,163,90,.5);}
+.collab-band .inner{display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;}
+.collab-band h2{font-size:clamp(24px,3.4vw,34px);max-width:600px;}
+.collab-band p{color:var(--cream-dim);margin-top:8px;max-width:560px;font-size:15px;}
+.collab-band .eyebrow{color:var(--gold);}
 
 /* ---------- formularios ---------- */
 .panel{background:var(--bg-soft);border:1px solid var(--line);border-radius:16px;padding:30px;}
