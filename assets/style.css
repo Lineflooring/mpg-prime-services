@@ -173,9 +173,11 @@ nav.mainnav a:hover,nav.mainnav a.active{opacity:1;color:var(--gold);}
 .field small{font-size:11.5px;color:var(--cream-dim);}
 .checkline{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--cream-dim);}
 .checkline input{margin-top:3px;accent-color:var(--gold);width:17px;height:17px;flex-shrink:0;}
+/* Oculto por defecto: la visibilidad la controlan los handlers con style.display en línea.
+   .ok/.err solo definen colores; NUNCA display (si lo definen, pisan el display:none base). */
 .form-msg{border-radius:10px;padding:14px 18px;font-size:14.5px;margin-top:18px;display:none;}
-.form-msg.ok{display:block;background:rgba(127,176,105,.13);border:1px solid var(--ok);color:#CFE8C6;}
-.form-msg.err{display:block;background:rgba(224,120,86,.12);border:1px solid var(--danger);color:#F3C4B4;}
+.form-msg.ok{background:rgba(127,176,105,.13);border:1px solid var(--ok);color:#CFE8C6;}
+.form-msg.err{background:rgba(224,120,86,.12);border:1px solid var(--danger);color:#F3C4B4;}
 .radio-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media (max-width:700px){ .radio-cards{grid-template-columns:1fr;} }
 .ynrow{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid var(--line);border-radius:11px;padding:14px 16px;background:var(--bg);}

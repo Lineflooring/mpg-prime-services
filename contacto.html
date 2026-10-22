@@ -100,6 +100,7 @@
     var data = {};
     new FormData(ev.target).forEach(function(v, k){ data[k] = v; });
     var err = document.getElementById('ct-err');
+    document.getElementById('ct-ok').style.display = 'none';
     if (!data.nombre || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email || '') || !data.mensaje){
       err.textContent = MPS.t('contact.err'); err.style.display = 'block'; return;
     }

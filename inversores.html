@@ -108,6 +108,8 @@
     var data = {};
     new FormData(ev.target).forEach(function(v, k){ data[k] = v; });
     if (!data.contacto || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email || '')){ ev.target.reportValidity(); return; }
+    document.getElementById('inv-err').style.display = 'none';
+    document.getElementById('inv-ok').style.display = 'none';
     var payload = Object.assign({}, data, { idioma: MPS.lang() });
     Promise.all([
       MPS.persistNetlify('inversor', payload),

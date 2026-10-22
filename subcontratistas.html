@@ -239,10 +239,12 @@ window.I18N.es['sub.zones.ph']='Ej.: Alicante, Elche, Benidorm…'; window.I18N.
       MPS.persistNetlify('subcontratista-bloqueado', payload);
       MPS.persistSupabase('mpg_services_sub_attempts', { empresa: empresa, email: email,
         preguntas_fallidas: failed.join(', '), idioma: MPS.lang() });
+      document.getElementById('sub-form').style.display = 'none';
       document.getElementById('blocked').style.display = 'block';
       document.getElementById('blocked').scrollIntoView({ behavior: 'smooth' });
       return;
     }
+    document.getElementById('blocked').style.display = 'none';
     var f = document.getElementById('sub-form'); f.style.display = 'block';
     if (empresa) document.getElementById('s-razon').value = empresa;
     if (email) document.getElementById('s-email').value = email;
