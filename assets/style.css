@@ -36,14 +36,14 @@ header{position:sticky;top:0;z-index:60;background:rgba(10,13,18,.94);backdrop-f
 .brand-name b{display:block;font-family:'Fraunces',serif;font-weight:700;font-size:19px;letter-spacing:.02em;white-space:nowrap;}
 .brand-name b i{font-style:normal;color:var(--gold);}
 .brand-name span{display:block;font-size:10.5px;letter-spacing:.09em;color:var(--gold);text-transform:uppercase;font-family:'IBM Plex Mono',monospace;margin-top:2px;}
-.headright{display:flex;align-items:center;gap:16px;}
-nav.mainnav{display:flex;gap:22px;align-items:center;}
+.headright{display:flex;align-items:center;gap:16px;flex-shrink:0;}
+nav.mainnav{display:flex;gap:22px;align-items:center;flex-shrink:0;}
 nav.mainnav a{font-size:13.5px;font-weight:500;color:var(--cream);opacity:.72;white-space:nowrap;}
 nav.mainnav a:hover,nav.mainnav a.active{opacity:1;color:var(--gold);}
-.lang-switch{display:flex;gap:2px;border:1px solid var(--line);border-radius:30px;padding:3px;}
+.lang-switch{display:flex;flex-shrink:0;gap:2px;border:1px solid var(--line);border-radius:30px;padding:3px;}
 .lang-switch button{font-size:14px;line-height:1;padding:5px 8px;border:none;background:none;border-radius:20px;cursor:pointer;opacity:.5;filter:grayscale(.4);}
 .lang-switch button.active{background:var(--gold);opacity:1;filter:none;}
-.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px;padding:12px 20px;border-radius:8px;background:var(--gold);color:#141414;transition:transform .15s ease,background .15s ease;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;}
+.btn{display:inline-flex;align-items:center;white-space:nowrap;gap:8px;font-weight:700;font-size:13.5px;padding:12px 20px;border-radius:8px;background:var(--gold);color:#141414;transition:transform .15s ease,background .15s ease;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;}
 .btn:hover{background:#d6b76e;transform:translateY(-1px);}
 .btn.ghost{background:none;border:1px solid var(--gold);color:var(--gold);}
 .btn.ghost:hover{background:var(--gold);color:#141414;}
@@ -55,7 +55,7 @@ nav.mainnav a:hover,nav.mainnav a.active{opacity:1;color:var(--gold);}
 .mobilenav.open{display:flex;}
 .mobilenav a{padding:12px 0;font-size:15px;color:var(--cream);border-top:1px solid var(--line);opacity:.88;}
 .mobilenav a:first-child{border-top:none;}
-@media (max-width:1020px){ nav.mainnav{display:none;} .navtoggle{display:block;} }
+@media (max-width:1280px){ nav.mainnav{display:none;} .navtoggle{display:block;} }
 /* Header en pantallas estrechas: dos filas limpias, sin solapes ni truncados.
    Fila 1: sello + wordmark + menú. Fila 2: idiomas + CTA a ancho útil.
    .headright pasa a display:contents para repartir sus hijos dentro de .headbar. */
